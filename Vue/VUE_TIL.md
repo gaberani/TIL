@@ -2,9 +2,11 @@
 
 ## 밑줄 우선 정리
 
----
-
 ### CH.01
+
+
+
+---
 
 ### CH.02
 
@@ -63,8 +65,141 @@
 
 
 
+### CH.03
+
+* this와 arrow function
+
+1. js에서의 this?
+    : 현재 호출중인 메서드를 보유한 객체를 가리킴 (default)
+
+   ```javascript
+   var obj = { result: 0 };
+   obj.add = function(x,y) {  
+      this.result = x+y;
+   }
+   obj.add(3,4)
+   console.log(obj)
+   ```
+
+
+
+2. this가 바인딩되는 시점 : 메서드, 함수가 호출될 때마다!!!
+    
+    메서드를 호출할 때 this를 직접 지정하여 호출할 수 있음
+    
+    * apply, call 메서드 : 지정하여 호출까지
+    * bind 메서드 : this를 강제로 지정한 새로운 함수를 리턴함.
+    
+    ```javascript
+    var add = function(x,y) {  
+       this.result = x+y;
+    }
+    //add(4,5);
+    
+    var obj = {};
+    //add.apply(obj, [4,5])
+    var add2 = add.bind(obj);
+    add2(4,5)
+    ```
+
+
+
+
+3. 함수가 중첩되었을 때의 문제(전통적인 함수에서의...)
+
+   ```javascript
+   var obj = { result:0 };
+   obj.add = function(x,y) {
+     function inner() {
+        this.result = x+y;
+     }
+     //inner();
+     //inner.apply(this);
+     inner = inner.bind(this);
+     inner();
+   }
+   obj.add(4,5)
+   ```
+
+
+
+
+4. 화살표 함수는 lexical binding(X)
+
+   ```javascript
+   var obj = { result:0 };
+   obj.add = function(x,y) {
+     var inner = () => {
+        this.result = x+y;
+     }
+     inner()
+   }
+   obj.add(4,5)
+   ```
+
+
+
 - **계산형 속성(Computed)**
 
   연산 로직이 필요한 경우  Computed라는 속성과 함께 함수를 등록해두면 마치 속성처럼 사용 가능하다.
 
-  책의 예제에선 이를 통해 검색어 필터 기능을 구현했다. **(EX.02-17)**
+  계산형 속성을 좀더 알아보기 위해 메서드로 작성한 경우와 비교해보자 **(EX.03-04)**
+  
+  - 메서드로 작성한 경우
+  
+  ```jsx
+  // html
+  <input type="text" v-model="num" /><br />
+      1부터 입력된 수까지의 합 : <span>{{sum()}}</span>
+  // js
+  methods : {
+          sum : function() {
+              console.log(Date.now());
+              var n = Number(this.num);
+              if (Number.isNaN(n) || n < 1)  return 0;
+              return ((1+n) * n) / 2;
+          }
+      }
+  ```
+  
+  메서드로 작성 시 HTML 안에서 보간법을 이용해 함수 자체를 호출하는 것을 볼 수 있다. 콘솔창에서 vmSum.sum()과 같이 실행하기에 매번 Date.now()가 보인다.
+  
+  
+  
+  - Computed로 작성한 경우
+  
+  ```jsx
+  // html
+  <input type="text" v-model="num" /><br />
+      1부터 입력된 수까지의 합 : <span>{{sum}}</span>
+  
+  // js
+  computed : {
+          sum : function() {
+              var n = Number(this.num);
+              if (Number.isNaN(n) || n < 1)  return 0;
+              return ((1+n) * n) / 2;
+          }
+      }
+  ```
+  
+  콘솔창에서 vmSum.sum로 computed로 작성한 sum을 확인하면 한번 캐싱된 이후이기에 Date.now()와 같이 아무 곳에도 의존하지 않는 것은 값이 변하지 않는 것을 확인할 수 있다.
+  
+  
+  
+  - **캐싱이 필요한 이유**
+  
+  계산에 시간이 많이 걸리는 computed 속성인 A가 있다고 가정해보면 이 속성을 계산하려면 거대한 배열을 반복해서 다루고 많은 계산을 해야한다. 그런데 A 에 의존하는 다른 computed 속성값도 있을 수 있습니다. 캐싱을 하지 않으면 A 의 getter 함수를 꼭 필요한 것보다 더 많이 실행하게 된다!!
+
+
+
+* **Computed VS Watch**
+
+
+
+
+
+
+
+---
+
