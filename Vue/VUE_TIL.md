@@ -84,7 +84,7 @@
 
 
 2. this가 바인딩되는 시점 : 메서드, 함수가 호출될 때마다!!!
-    
+   
     메서드를 호출할 때 this를 직접 지정하여 호출할 수 있음
     
     * apply, call 메서드 : 지정하여 호출까지
@@ -194,6 +194,38 @@
 
 
 * **Computed VS Watch**
+
+  하나의 데이터를 기반으로 다른 데이터를 변경할 필요가 있을 때 흔히 사용 할 수 있는 Computed 속성 외에도 Watch 속성이 있다. 주로 긴 시처리 시간이 필요한 비동기 처리에 적합하다는 특징을 갖고있다. 예제를 통해 확인해보자.
+
+  **(EX.03-05)**
+
+  ```javascript
+  // html
+  <div id="example">
+      x : <input type='text' v-model="x" /><br />
+      y : <input type='text' v-model="y" /><br />
+      덧셈 결과 : {{sum}}
+  </div>
+  
+  // js
+  watch : {
+          x : function(v) {
+              console.log('## x 변경')
+              var result = Number(v) + Number(this.y);
+              if (isNaN(result)) this.sum = 0;
+              else this.sum = result;
+          },
+          y : function(v) {
+              console.log('## y 변경')
+              this.y = v;
+              var result = Number(this.x) + Number(v);
+              if (isNaN(result)) this.sum = 0;
+              else this.sum = result;
+          }
+      }
+  ```
+
+  Watch 옵션에 등록되는 것은 속성의 이름과 해당 속성이 변경되었을 때 호출할 함수로서 함수는 인자를 전달받는데 이것은 변경된 속성의 값이다. 기존의 속성 값 또한 사용이 가능한 데 이는 공식 문서를 통해 확인하자.
 
 
 
