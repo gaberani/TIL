@@ -63,6 +63,8 @@
 
     v-cloak을 설정하면 화면 초기에 컴파일되지 않은 템플릿은 나타나지 않도록 할 수 있다.
 
+---
+
 
 
 ### CH.03
@@ -235,3 +237,73 @@
 
 ---
 
+
+
+### CH.05
+
+* 인라인 스타일
+
+   기존 HTML에서 인라인 스타일의 사용을 권장하지 않고 Vue.js에서도 마찬가지이다. 하지만 인라인 스타일이 필요한 경우도 있으니 사용방법을 익혀둬야 한다.
+
+   그 경우란 Vue 인스턴스의 데이터로 처리하려면 케밥 표기법을 사용할 수 없다. `자바스크립트(JS)`언어에선 변수명, 속성명으로 대쉬(-) 기호를 사용할 수 없기 때문이다. 
+
+  **(EX.05-02)**
+
+  ```html
+  // html
+  <div id="example">
+    <button id="a" v-bind:style="style1" @mouseover.stop="overEvent" 
+        @mouseout.stop="outEvent">테스트</button>
+  </div>
+  ```
+
+  ```javascript
+  // js
+  var vm = new Vue({
+    el : "#example",
+    data : {
+      style1 : { backgroundColor:"aqua", border:'solid 1px gray', 
+        with:'100px', textAlign:'center' }
+    },
+    methods : {
+      overEvent : function(e) {
+        this.style1.backgroundColor = "purple";
+        this.style1.color = "yellow";
+      },
+      outEvent : function(e) {
+        this.style1.backgroundColor = "aqua";
+        this.style1.color = "black";
+      }
+    }
+  })
+  ```
+
+
+
+* 클래스 바인딩
+
+  CSS 클래스를 바인딩 하기 위해서 :class를 사용한다. 개별적인 클래스 단위로 true일 경우 클래스가 적용되는 방식이다.
+
+  ```html
+  <div id="example">
+      <button id="btn1" v-bind:class="{ set1:s1, set2:s2, set3:s3 }">버튼1</button>
+      <p>
+          <input type="checkbox" v-model="s1" value="true" />set1 디자인<br/>
+          <input type="checkbox" v-model="s2" value="true" />set2 디자인<br/>
+          <input type="checkbox" v-model="s3" value="true" />set3 디자인<br/>
+      </P>
+  </div>
+  ```
+
+  ```javascript
+  <script type="text/javascript">
+  var vm = new Vue({
+    el : "#example",
+    data : { s1 : false, s2 : false, s3 : false }
+  })
+  </script>
+  ```
+
+  
+
+  
