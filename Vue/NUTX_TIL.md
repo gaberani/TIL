@@ -27,7 +27,25 @@
 
 ## 라이프사이클
 
+* Nuxt ServerInit
 
+  
+
+* Route Middleware
+
+  
+
+* validate()
+
+  
+
+* asyncData()
+
+  
+
+* fetch(context)
+
+  
 
 
 
@@ -40,6 +58,12 @@
 * functional template
 
 
+
+## Nuxt의 기능
+
+* client-only
+
+  
 
 
 
