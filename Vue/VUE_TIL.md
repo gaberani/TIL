@@ -306,4 +306,43 @@
 
   
 
+* Computed, Methods를 이용한 스타일 적용
+
+  계산형 속성은 스타일을 적용할 때도 사용할 수 있다. 입력 값이 올바른 범위에 포함되지 않을 때 스타일을 적용하는 예제를 통해 알아보자.
+
+  **(EX.05-07)**
+
+  ```html
+  // html
+  <div id="example">
+      <div>
+          <p>1부터 100까지만 입력가능합니다.</p>
+          <div>
+              점수 : <input type="text" class="score" 
+                  v-model.number="score" v-bind:class="info" />
+              <img src="images/error.png" class="warnimage" v-show="info.warning" />
+          </div>
+      </div>
+  </div>
+  ```
+
+  ```javascript
+  // js
+  var vm = new Vue({
+  el : "#example",
+    data : { 
+      score : 0
+    },
+    computed : {
+      info : function() {
+          if (this.score >= 1 && this.score <= 100) 
+              return { warning:false };
+          else 
+              return { warning:true };
+      }
+    }
+  })
+  ```
   
+  예제에선 score가 1부터 100까지일 때만 유효한 값으로 판단하므로 그 여부에 따라 warning이 적용될 지 info가 적용될 지 달라진다.
+
