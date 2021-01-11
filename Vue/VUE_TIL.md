@@ -63,6 +63,104 @@
 
     v-cloak을 설정하면 화면 초기에 컴파일되지 않은 템플릿은 나타나지 않도록 할 수 있다.
 
+
+
+* v-model과 v-on의 차이 알아보기
+
+  **(EX.02-16)**
+
+  ```vue
+  // html
+  <div id="exmaple">
+      <p>
+      국가명 : <input type="text" v-model="countryname" placeholder="국가명" />
+      </p>
+  	<!-- 나라 테이블 생략 -->
+  </div>
+  
+  // js
+  <script type="text/javascript">
+  	var model = {
+          countryname : "",
+          countries : [
+              // 나라 데이터 16개
+     	    ]
+      }
+      
+      var clist = new Vue({
+          el : "#exmaple",
+          data : model,
+          computed : {
+              filtered : function() {
+                  var cname = this.countryname.trim();
+                  return this.countries.filter(function(item,index) {
+                      if (item.name.indexOf(cname) > -1) {
+                          return true;
+                      }
+                  });
+              }
+          }
+      });
+  </script>
+  ```
+  
+   이 예제의 경우 주의해야 할 사항으로 Computed에 대해 생각해야 한다. 보면 this.countryname 속성값을 cname이라는 변수에 할당하고 있는데 그 이유는 배열 객체의 filter 함수에 의해 호출되는 콜백 함수 안에서의 this는 바깥쪽의 this와 다르기 때문이다. **콜백 함수 안쪽에서의 this**는 Vue 객체가 아니고, 전역 객체(Global Object, 브라우저의 경우 window 객체)를 참조한다. 따라서 별도로 변수로 받아둘 필요가 있다.
+  
+  
+  
+  **(EX.02-17)**
+  
+  ```vue
+  // html
+  <div id="exmaple">
+      <p>
+      국가명 : <input type="text" :value="countryname" placeholder="국가명" @input="nameChanged" />
+      </p>
+      <!-- 나라 테이블 생략 -->
+  </div>
+  
+  // js
+  <script type="text/javascript">
+  	var model = {
+          countryname : "",
+          countries : [
+              // 나라 데이터 16개
+     	    ]
+      }
+      
+      var clist = new Vue({
+          el : "#exmaple",
+          data : model,
+          computed : {
+              filtered : function() {
+                  var cname = this.countryname.trim();
+                  return this.countries.filter(function(item,index) {
+                      if (item.name.indexOf(cname) > -1) {
+                          return true;
+                      }
+                  });
+              }
+          },
+          methods : {
+              nameChanged : function(e) {
+                  this.countryname = e.target.value;
+              }
+          }
+      });
+      </script>
+  ```
+  
+  예제 02-16에서는 v-model 디렉티브를 이용해 양방향 바인딩으로 사용자의 입력값을 받아내고 있다. 하지만 **v-model 디렉티브는 한글 입력 시에 이벤트가 발생하거나 엔터키를 입력해주어야 바인딩이 일어나는 문제가 있다.**
+  
+  이 문제를 해결하기 위해서는 **v-on 디렉티브를 이용해 input 이벤트나 keyup 이벤트 처리를 수행하면 된다.**
+  
+  예제에서 보면 @input마다 이벤트를 처리하는 식으로 동기화하여 사용하고 있다.
+
+
+
+
+
+
 ---
 
 
