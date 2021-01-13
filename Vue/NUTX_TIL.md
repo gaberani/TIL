@@ -2,6 +2,8 @@
 
 ## 프로젝트 디렉토리 구조
 
+#### :scroll:[공식 문서](https://ko.nuxtjs.org/docs/2.x/directory-structure/nuxt/)
+
 * assets
   * css, image, font와 같은 리소스를 모아둔다.
 * components
@@ -22,6 +24,25 @@
   * 정적인 파일들을 포함한다. 구성에 따라 html, js 파일도 포함 시킬 수 있다.(정적 페이지 포함)
 * store
   * 애플리케이션에 사용될 vuex store 파일들을 포함한다. 기본적으로 비활성화 상태이도 store 디렉토리에 index.js파일을 작성하면 store가 활성화된다. 구성에 따라 모듈화하여 사용할 수 있다.
+
+
+
+## Nuxt.js의 라우팅
+
+ Nuxt.js는 `vue-router`를 내장하고 있고 라우터가 `pages`의 vue 파일들 디렉토리 구조에 따라 자동적으로 매칭해 준다. 만약 라우팅에 대해 좀더 보고 싶다면 [여기](https://ko.nuxtjs.org/docs/2.x/features/file-system-routing/)서 볼 수 있다.
+
+ NuxtLink 컴포넌트를 이용해 기존 Vue.js 프로젝트에서 RouterLink 컴포넌트를 썼던 것처럼 사용할 수 있다. 만약 다른 웹사이트로 보내주기 위해선 꼭 `<a>` 태그를 사용해야 한다. NuxtLink에 대한 자세한 설명은 [여기](https://ko.nuxtjs.org/docs/2.x/features/nuxt-components/#the-nuxtlink-component)서 볼 수 있다.
+
+* NuxtLink는 Nuxt.js에 포함된 컴포넌트로 import하지 않고 쓸 수 있다.
+* HTML의 `<a>` 태그와 유사하다.
+
+
+
+#### :star: prefetchLinks :star:
+
+ Nuxt.js는 `smart prefetching` 기능을 포함하고 있다. 2.4.0 버전부터 지원하기 시작해서 페이지 내의 `<nuxt-link>` 를 인식해 해당 페이지의 viewport 내에 보이고 있는 링크들의 js와 css를 미리 가져온다. 이것은 [quicklink](https://github.com/GoogleChromeLabs/quicklink)에서 영감을 받아 제작했다고 한다.
+
+
 
 
 
