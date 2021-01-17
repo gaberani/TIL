@@ -64,6 +64,6 @@
 
 => SSR 적용을 했더니 First Paint는 감소하였으나, DomContentLoaded Time이 증가한 것을 볼 수 있다.
 
-	* First Paint : Paint Timing API의 부분으로 네비게이션이 시작하고 스크린에 첫 픽셀이 렌더링 되기 까지의 시간을 뜻	한다. [링크](https://developer.mozilla.org/en-US/docs/Glossary/First_paint) , [참조할만한 링크](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webNavigation)
+* First Paint : Paint Timing API의 부분으로 네비게이션이 시작하고 스크린에 첫 픽셀이 렌더링 되기 까지의 시간을 뜻한다. [링크](https://developer.mozilla.org/en-US/docs/Glossary/First_paint) , [참조할만한 링크](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webNavigation)
 
 ![image-20210116234806980](C:\Users\GB\AppData\Roaming\Typora\typora-user-images\image-20210116234806980.png)
