@@ -496,5 +496,38 @@
 
 
 
-* SFC(Single File Component) - 단일 파일 컴포넌트ㅇ
-  * 
+* SFC(단일 파일 컴포넌트) 스타일 적용
+
+  Vue.component()로 작성한 컴포넌트에 자신만의 클래스가 적용되어 있어도 추가로 클래스 바인딩할 수 있다.
+
+  ```vue
+  // html
+  <body>
+      <div id="example">
+      	<center-box v-bind:class="boxstyle"></center-box>
+      </div>
+      // js
+      <script type="text/javascript">
+      Vue.component('center-box', {
+          template : '<div class="center">중앙에 위치</div>'
+      })
+      var vm = new Vue({
+          el : "#example",
+          data : {
+             boxstyle : { boxcolor : true }
+          }
+      })
+      </script>
+  </body>
+  
+  <style>
+      .boxcolor { background-color:orange;   }
+      .center {  width:200px; height:100px; line-height: 100px;
+          text-align: center; border: 1px solid gray; }
+  </style>
+  ```
+
+  콘솔창에서 vm.boxstyle.boxcolor=false를 실행하면 center-box 컴포넌트의 배경색이 바뀌는 것을 확인할 수 있다.
+
+  
+
