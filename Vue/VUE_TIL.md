@@ -1,6 +1,8 @@
-# VUE_TIL
+# VUE.js 퀵스타트
 
 ## 밑줄 우선 정리
+
+---
 
 ### CH.01
 
@@ -33,7 +35,7 @@
 
 - **v-show와 v-if 차이점**
 
-    실제 렌더링 여부에 따라 다르다. v-if는 조건에 부합되지 ㅇ낳으면 렌더링을 하지 않는 반면 v-show는 일단 HTML 요소를 렌더링한 후에 display 스타일 속성으로 화면에 보여줄지 여부를 결정.
+    실제 렌더링 여부에 따라 다르다. v-if는 조건에 부합되지 않으면 렌더링을 하지 않는 반면 v-show는 일단 HTML 요소를 렌더링한 후에 display 스타일 속성으로 화면에 보여줄지 여부를 결정.
 
     따라서, 화면이 자주 변경되는 부분은 v-if보다 v-show를 사용하는 것이 바람직하다.
 
@@ -162,8 +164,6 @@
 
 
 ---
-
-
 
 ### CH.03
 
@@ -325,75 +325,70 @@
           }
       }
   ```
-```
   
-  Watch 옵션에 등록되는 것은 속성의 이름과 해당 속성이 변경되었을 때 호출할 함수로서 함수는 인자를 전달받는데 이것은 변경된 속성의 값이다. 위에서 x를 기존으로 보면 x는 x 속성, function(v)는 x 속성이 변경될 때 호출되는 함수, v는 변경된 x 속성의 값을 의미한다. 기존의 속성 값 또한 사용이 가능한 데 이는 공식 문서를 통해 확인하자.
+    Watch 옵션에 등록되는 것은 속성의 이름과 해당 속성이 변경되었을 때 호출할 함수로서 함수는 인자를 전달받는데 이것은 변경된 속성의 값이다. 위에서 x를 기존으로 보면 x는 x 속성, function(v)는 x 속성이 변경될 때 호출되는 함수, v는 변경된 x 속성의 값을 의미한다. 기존의 속성 값 또한 사용이 가능한 데 이는 공식 문서를 통해 확인하자.
   
-  여기서 **Watch 속성의 한 가지 단점**을 발견할 수 있다. 값이 바뀔 때마다 매번 함수가 호출된다는 것인데 이 예제는 사실 Computed가 더 효과적이다.
-  
-  
-  
-  **(EX.03-06)**
+    여기서 **Watch 속성의 한 가지 단점**을 발견할 수 있다. 값이 바뀔 때마다 매번 함수가 호출된다는 것인데 이 예제는 사실 Computed가 더 효과적이다.
   
   ```vue
-  // html
-  <div id="example">
-      x : <input type='text' v-model="x" /><br />
-      y : <input type='text' v-model="y" /><br />
-      덧셈 결과 : {{sum}}
-  </div>
+    
   
-  // js
-  <script type="text/javascript">
-  var vm = new Vue({
-      el : "#example",
-      data : { x:0, y:0 },
-      beforeUpdate : function() {
-          console.log("before update")
-          console.log(this.x);
-      },
-      updated : function() {
-          console.log("update")
-          console.log(this.x);
-      },
-      computed : {
-          sum : function() {
-              var result = Number(this.x) + Number(this.y);
-              if (isNaN(result)) return  0;
-              else return result;
-          }
-      }
-  })
-  </script>
-```
-
-  이렇게 작성할 경우 sum을 data에 넣을 필요 없이 x, y만으로 작성이 가능하고 sum이 참조될 때만 해당 함수가 호출되기에 간단하고 편리하다. 하지만 이와 반대로 긴 시간이 필요한 비동기 처리가 필요할 때는 관찰 속성이 유용하다. 
+    
+    
+    
+    **(EX.03-06)**
+    
+    ```vue
+    // html
+    <div id="example">
+        x : <input type='text' v-model="x" /><br />
+        y : <input type='text' v-model="y" /><br />
+        덧셈 결과 : {{sum}}
+    </div>
+    
+    // js
+    <script type="text/javascript">
+    var vm = new Vue({
+        el : "#example",
+        data : { x:0, y:0 },
+        beforeUpdate : function() {
+            console.log("before update")
+            console.log(this.x);
+        },
+        updated : function() {
+            console.log("update")
+            console.log(this.x);
+        },
+        computed : {
+            sum : function() {
+                var result = Number(this.x) + Number(this.y);
+                if (isNaN(result)) return  0;
+                else return result;
+            }
+        }
+    })
+    </script>
+  ```
+  
+   이렇게 작성할 경우 sum을 data에 넣을 필요 없이 x, y만으로 작성이 가능하고 sum이 참조될 때만 해당 함수가 호출되기에 간단하고 편리하다. 하지만 이와 반대로 긴 시간이 필요한 비동기 처리가 필요할 때는 관찰 속성이 유용하다. 
 
 
 
  * 비동기 처리
 
-   비동기 처리의 가장 대표적인 예로 외부 서버와의 통신 기능이 있다. 이러한 기능을 제공하는 라이브러리는 jQuery의 `AJAX`, Vue.js의 라이브러리 중 하나인 `vue-resource`, promise 기반의  HTTP Client 기능을 수행하는 `axios`, `fetch` 등 다양한 것들이 있다. 이 중 책의 예제에선 하위 브라우저와 IE를 지원하고자 `fetch polyfill`을 이용하기로 했다.
+    비동기 처리의 가장 대표적인 예로 외부 서버와의 통신 기능이 있다. 이러한 기능을 제공하는 라이브러리는 jQuery의 `AJAX`, Vue.js의 라이브러리 중 하나인 `vue-resource`, promise 기반의  HTTP Client 기능을 수행하는 `axios`, `fetch` 등 다양한 것들이 있다. 이 중 책의 예제에선 하위 브라우저와 IE를 지원하고자 `fetch polyfill`을 이용하기로 했다.
 
    
 
-
-
-
-
-
-
 ---
-
-
 
 ### CH.05
 
 * 인라인 스타일
 
-   기존 HTML에서 인라인 스타일의 사용을 권장하지 않고 Vue.js에서도 마찬가지이다. 하지만 인라인 스타일이 필요한 경우도 있으니 사용방법을 익혀둬야 한다.
+    기존 HTML에서 인라인 스타일의 사용을 권장하지 않고 Vue.js에서도 마찬가지이다. 하지만 인라인 스타일이 필요한 경우도 있으니 사용방법을 익혀둬야 한다.
 
-   그 경우란 Vue 인스턴스의 데이터로 처리하려면 케밥 표기법을 사용할 수 없다. `자바스크립트(JS)`언어에선 변수명, 속성명으로 대쉬(-) 기호를 사용할 수 없기 때문이다. 
+    그 경우란 Vue 인스턴스의 데이터로 처리하려면 케밥 표기법을 사용할 수 없다. `자바스크립트(JS)`언어에선 변수명, 속성명으로 대쉬(-) 기호를 사용할 수 없기 때문이다. 
 
   **(EX.05-02)**
 
