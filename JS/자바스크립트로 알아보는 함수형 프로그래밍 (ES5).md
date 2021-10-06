@@ -36,9 +36,40 @@
   function add2(a, b) {
     return a + b + c;
   }
-  console.log( add2(10, 5) );
-  console.log( add2(10, 5) );
-  console.log( add2(10, 5) );
+  console.log( add2(10, 2) ); // 22
+  console.log( add2(10, 3) ); // 23
+  console.log( add2(10, 4) ); // 24
+  
+  // 아래와 같이 변화가 일어나는 값이라면 순수 함수가 아닌 것!
+  c = 20;
+  console.log( add2(10, 2) ); // 32
+  console.log( add2(10, 3) ); // 33
+  console.log( add2(10, 4) ); // 34
+  
+  // 부수 효과가 있는 함수이자 순수 함수가 아닌 함수
+  var c = 20;
+  function add3(a, b) {
+    // 외부 상태에 관여
+    c = b;
+    return a + b;
+  }
+  
+  console.log('c: ', c); // c: 20
+  console.log( add(20, 30) );
+  console.log('c: ', c); // c: 30
+  
+  // 순수 함수 X, 리턴 값 없음, 직접 인자로 들어온 값의 상태를 변경시킴
+  var obj1 = { val: 10 };
+  function add4(obj, b) {
+    obj.val += b;
+  }
+  console.log( obj1.val );
+  add4(obj1, 20);
+  console.log( obj1.val );
+  // 이렇게 코딩하는 것이 문제라고 말하는 것이 아니라
+  // 이런 함수가 순수 함수가 아니라고 말하고 있는 것이다
+  // 객체를 다루는 것은 필수이다, 그렇기에 
+  // 함수형 프로그래밍은 객체의 값을 변형하는 데 있어서 약간 다른 방식을 취한다
   ```
 
   
