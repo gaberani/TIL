@@ -63,13 +63,28 @@
   function add4(obj, b) {
     obj.val += b;
   }
-  console.log( obj1.val );
+  console.log( obj1.val ); // 10
   add4(obj1, 20);
-  console.log( obj1.val );
+  console.log( obj1.val ); // 30
   // 이렇게 코딩하는 것이 문제라고 말하는 것이 아니라
   // 이런 함수가 순수 함수가 아니라고 말하고 있는 것이다
   // 객체를 다루는 것은 필수이다, 그렇기에 
   // 함수형 프로그래밍은 객체의 값을 변형하는 데 있어서 약간 다른 방식을 취한다
+  
+  // 다시 순수 함수
+  var obj1 = { val: 10 };
+  function add5(obj, b) {
+    // obj1의 val값만 참조해서 obj1(외부 변수)를 변형시키지 않고
+    // 새로운 객체로 만들어 반환해 준다
+    return { val: obj1.val + b }
+  }
+  
+  console.log( obj1.val ); // 10
+  var obj2 = add5(obj1, 20);
+  console.log( obj1.val ); // 10
+  console.log( obj2.val ); // 30
+  
+  
   ```
 
   
