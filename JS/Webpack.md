@@ -168,3 +168,92 @@ export { sum, substract, pi }
 3. **Dynamic Loading & Lazy Loading 미지원**
 
    [Require.js](https://requirejs.org/)와 같은 라이브러리를 쓰지 않으면 동적으로 원하는 순간에 모듈을 로딩하는 것이 불가능 했었다. 그러나 이젠 웹팩의 [Code Splitting](https://joshua1988.github.io/webpack-guide/motivation/problem-to-solve.html) 기능을 이용하여 원하는 모듈을 원하는 타이밍에 로딩할 수 있습니다.
+
+
+
+## 웹팩의 4가지 주요 속성
+
+웹팩의 빌드 (파일 변환) 과정을 이해하기 위해서는 아래 4가지 주요 속성에 대해 알고 있어야 한다
+
+* entry
+* output
+* loader
+* plugin
+
+각 속성에 대해 자세히 살펴보자
+
+1. **Entry**
+
+   `Entry`속성은 웹팩에서 웹 자원을 변환하기 위해 필요한 최초 진입점이자 JS 파일 경로다
+
+   ```js
+   // SPA 서비스에 주로 쓰이는 webpack.config.js
+   module.exports = {
+     entry: './src/index.js'
+   }
+   
+   // MPA 서비스에 적합한 webpack.config.js 
+   module.exports = {
+     entry: {
+       login: './src/LoginView.js',
+       main: './src/MainView.js'
+     }
+   }
+   ```
+
+   위 코드는 웹팩을 실행했을 때 src 폴더 및의 index.js 파일을 대상으로 웹팩이 빌드를 수행한다
+
+   엔트리 포인트는 1개로 한정된 것이 아니라 여러 개가 될 수도 있다.
+
+   다시 말해, `Entry`속성에 지정된 파일에는 웹 애플리케이션의 전반적인 구조와 내용이 담겨져 있어야 한다. 웹팩이 해당 속성에 지정된 파일을 가지고 웹 애플리케이션에서 사용되는 모듈들의 연관 관계를 이해하고 분석하기 때문에 어플리케이션을 동작시킬 수 있는 내용들이 담겨야 하기 때문
+
+   예를 들어, 블로그 서비스를 웹팩으로 빌드한다고 했을 때 코드의 모양은 아래와 같을 수 있다
+
+   ```js
+   // index.js
+   import LoginView from './LoginView.js';
+   import HomeView from './HomeView.js';
+   import PostView from './PostView.js';
+   
+   function initApp() {
+     LoginView.init();
+     HomeView.init();
+     PostView.init();
+   }
+   
+   initApp();
+   ```
+
+   위 코드는 블로그 서비스가 SPA임을 가정하고 작성한 코드다. 사용자의 로그인 화면, 로그인 후 진입하는 메인 화면, 그리고 게시글을 작성하는 화면 등 웹 서비스에 필요한 화면들이 모두 index.js 파일에서 불려져 사용되고 있기 때문에 웹팩을 실행하면 해당 파일들의 내용까지 해석하여 파일을 빌드해줄 것입니다.
+
+   ![image-20211014234948096](/Users/hyeonsung/Desktop/GB/TIL/JS/Webpack.assets/image-20211014234948096.png)
+
+   위와 같이 모듈 간의 의존 관계가 생기는 구조를 **디펜던시 그래프** 라고 한다
+
+2. **Output**
+
+   `output` 속성은 웹팩을 돌리고 난 결과물을 저장할 파일 경로를 의미한다. 앞에서 배운 `entry` 속성과는 다르게 객체 형태로 옵션들을 추가해야 한다.
+
+   최소한 `filename`은 지정해줘야 하며 일반적으로 아래와 같이 `path` 속성을 함께 정의한다.
+
+   ```js
+   // webpack.config.js
+   var path = require('path');
+   
+   module.exports = {
+     output: {
+       filename: 'bundle.js',
+       path: path.resolve(__dirname, './dist')
+     }
+   }
+   ```
+
+   
+
+3. **Loader**
+
+   
+
+4. **Plugin**
+
+   
