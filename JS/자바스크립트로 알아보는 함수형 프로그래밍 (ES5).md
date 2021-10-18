@@ -121,8 +121,10 @@
   ```js
   /* add_maker */
   function add_maker(a) {
-    // 아래 return된 함수는 클로져된 것, a라는 변수를 기억해
-    return function(b) {
+    // 아래 return된 함수는 클로져, 일급 함수라는 개념이 사용되었다.
+    // a는 add_maker 내에서 사용되거나 변경되지 않고 리턴해주는 함수에서만 사용하고 있는데
+    // 그 함수에서 a의 상태를 변경하고 있지 않으므로 a는 항상 동일한 값이고 들어온 b를 더하는 순수 함수가 된다
+    return function(b) { // 함수를 값으로 다루면서 언제 평가하든 동일하게 사용할 수 있다
       return a + b;
     }
   }
@@ -135,4 +137,18 @@
   var add15 = add_maker(15);
   console.log( add5(10) );
   console.log( add15(10) );
+  
+  
+  function f4(f1, f2, f3) {
+    return f3(f1() + f2());
+  }
+  
+  f4(
+    function() { return 2; },
+    function() { return 1; },
+    function(a) { return a * a; }
+  ); 
+  // 순수한 함수들을 조합하여 최종적으로 결과를 만들면 평가 시점이나 방법이 어떤 로직 안에서 할지 자유로워서 좋다
+  // 비동기가 일어나는 시점이나 동시성이 필요한 시점에서 
+  ```
 
